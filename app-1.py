@@ -53,12 +53,10 @@ if st.button('Get Skills'):
     
 st.title("Boost Candidates")
 
-skills = st.text_input("Enter skills separated by comma")
+skills = predicted_job_role
 
-if skills and st.button("Get Candidates"):
-
+if skills:
     user_skills = [skill.strip() for skill in skills.split(',')]
-    
     ps = PorterStemmer()
     user_skill_tokens = set()
     for user_skill in user_skills:
@@ -100,20 +98,21 @@ if skills and st.button("Get Candidates"):
     top_10_individuals = sorted_individuals[:10]
 
     if top_10_individuals:
+
         results = []
         printed_candidates = set()
+
         for person in top_10_individuals:
             if person['Name'] not in printed_candidates:
                 printed_candidates.add(person['Name'])
-                results.append({"Rank": len(results) + 1, "CVNumber": person['CVNumber'], "Name": person['Name'],
-                                "Contact": person.get('Contact', ''), "Total_Score": person['Total_Score']})
+                results.append({"Rank": len(results) + 1, 
+                "Name": person['Name'],
+                "Contact": person.get('Contact', ''),
+                "Score": round(person['Total_Score'], 2)})
 
-        for result in results:
-            st.write(f"""
-            Rank: {result['Rank']}
-            Name: {result['Name']}
-            Contact: {result['Contact']}
-            Score: {result['Total_Score']}
-            """)
+        results_df = pd.DataFrame(results)
+        
+        st.table(results_df.style.format({'Score': '{:.2f}'})
+          .set_precision(2))
     else:
         st.write("No matching candidates found")
