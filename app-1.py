@@ -17,7 +17,7 @@ nltk.download('wordnet')
 
 # Load models
 
-classifier = joblib.load("job_role_classifier.pkl") 
+# classifier = joblib.load("job_role_classifier.pkl") 
 vectorizer = joblib.load("vectorizer.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
 
