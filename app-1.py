@@ -5,6 +5,7 @@ import pandas as pd
 from nltk.tokenize import word_tokenize 
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+import pickle
 import nltk
 
 nltk.download('punkt')
@@ -12,9 +13,19 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 
 # Load models
-classifier = joblib.load("job_role_classifier.pkl") 
-vectorizer = joblib.load("vectorizer.pkl")
-label_encoder = joblib.load("label_encoder.pkl")
+
+with open('job_role_classifier.pkl', 'rb') as file1:
+        classifier = pickle.load(file1)
+    
+with open('vectorizer.pkl', 'rb') as file2:
+        vectorizer = pickle.load(file2)
+    
+with open('label_encoder.pkl', 'rb') as file3:
+        label_encoder = pickle.load(file3)
+    
+# classifier = joblib.load("job_role_classifier.pkl") 
+# vectorizer = joblib.load("vectorizer.pkl")
+# label_encoder = joblib.load("label_encoder.pkl")
 
 def get_unique():
     start_role = set()
