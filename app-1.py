@@ -1,25 +1,35 @@
-import streamlit as st
-import joblib
 import csv
+import nltk
+import joblib
+import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder
 from nltk.tokenize import word_tokenize 
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-import nltk
+
 
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
 # Load models
-
-# classifier = joblib.load("job_role_classifier.pkl") 
 vectorizer = joblib.load("vectorizer.pkl")
 label_encoder = joblib.load("label_encoder.pkl")
+
+def classifier_model(vectorizer, label_encoder):
+    data = pd.read_csv("job_roles.csv")
+
+    X = vectorizer.fit_transform(data["Job Role Description"])
+    y = label_encoder.fit_transform(data["Required Skills"])
+
+    # Train a Random Forest classifier
+    classifier = RandomForestClassifier()
+    classifier.fit(X, y)
+    
+    return classifier
 
 st.title("Job Description to Skills")
 
@@ -33,6 +43,7 @@ if st.button('Get Skills'):
     user_description_vector = vectorizer.transform([option]) 
 
     # Predict label 
+    classifier = classifier_model(vectorizer, label_encoder)
     predicted_label = classifier.predict(user_description_vector)[0]
 
     # Decode label
