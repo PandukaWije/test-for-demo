@@ -12,9 +12,9 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 
 # Load models
-classifier = joblib.load("job_role_classifier.pkl") 
-vectorizer = joblib.load("vectorizer.pkl")
-label_encoder = joblib.load("label_encoder.pkl")
+classifier = joblib.load("job_role_classifier.pkl", backward_compatibility=True) 
+vectorizer = joblib.load("vectorizer.pkl", backward_compatibility=True)
+label_encoder = joblib.load("label_encoder.pkl", backward_compatibility=True)
 
 def get_unique():
     start_role = set()
