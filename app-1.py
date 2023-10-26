@@ -27,13 +27,13 @@ def get_unique():
 
     return sorted(list(start_role))
 
-st.title("Job Descriptidsaon to Skills")
+st.title("Job Description to Skills")
 
 start_role = get_unique()
 
 option = st.selectbox('Select Job Role', start_role)
-predicted_job_role = []
-if st.button('Process'):
+
+if st.button('Get Skills'):
     # Vectorize user input
     user_description_vector = vectorizer.transform([option]) 
 
@@ -43,11 +43,13 @@ if st.button('Process'):
     # Decode label
     predicted_job_role = label_encoder.inverse_transform([predicted_label])[0]
 
-    st.success(f"Predicted Skill Sets: {predicted_job_role}")
+    st.success(f"Predicted Job Role: {predicted_job_role}")
     
-skills = predicted_job_role
+st.title("Boost Candidates")
 
-if skills:
+skills = st.text_input("Enter skills separated by comma")
+
+if skills and st.button("Get Candidates"):
 
     user_skills = [skill.strip() for skill in skills.split(',')]
     
@@ -92,21 +94,20 @@ if skills:
     top_10_individuals = sorted_individuals[:10]
 
     if top_10_individuals:
-
         results = []
         printed_candidates = set()
-
         for person in top_10_individuals:
             if person['Name'] not in printed_candidates:
                 printed_candidates.add(person['Name'])
-                results.append({"Rank": len(results) + 1, 
-                "Name": person['Name'],
-                "Contact": person.get('Contact', ''),
-                "Score": round(person['Total_Score'], 2)})
+                results.append({"Rank": len(results) + 1, "CVNumber": person['CVNumber'], "Name": person['Name'],
+                                "Contact": person.get('Contact', ''), "Total_Score": person['Total_Score']})
 
-        results_df = pd.DataFrame(results)
-        
-        st.table(results_df.style.format({'Score': '{:.2f}'})
-          .set_precision(2))
+        for result in results:
+            st.write(f"""
+            Rank: {result['Rank']}
+            Name: {result['Name']}
+            Contact: {result['Contact']}
+            Score: {result['Total_Score']}
+            """)
     else:
         st.write("No matching candidates found")
