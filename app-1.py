@@ -2,6 +2,10 @@ import streamlit as st
 import joblib
 import csv
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
 from nltk.tokenize import word_tokenize 
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
