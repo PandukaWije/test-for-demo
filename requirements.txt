@@ -1,5 +1,4 @@
 scikit-learn
-sklearn.ensemble
 joblib==1.2.0
 nltk==3.8.1
 pandas==1.5.2
