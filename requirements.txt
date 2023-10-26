@@ -1,0 +1,9 @@
+keras==2.12.0rc1
+langchain==0.0.279
+numpy==1.23.5
+opencv_contrib_python==4.8.0.76
+opencv_python==4.8.0.76
+opencv_python_headless==4.8.0.76
+PyPDF2==3.0.1
+python-dotenv==1.0.0
+streamlit==1.16.0
